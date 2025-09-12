@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-# dist-file-syst
 =======
 # Guia de Execução do DistributedFileSystem
 
@@ -140,5 +138,3 @@ cd peerN
 echo "nova linha" > nome_arquivo.txt
 
 
-
->>>>>>> ce8427f7e38fe74a5f3fa162487da551588743a9
