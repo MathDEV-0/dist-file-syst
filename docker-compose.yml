@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   peer1:
     container_name: peer1
@@ -13,12 +11,12 @@ services:
         "bin",
         "application.Main",
         "5000",
-        "knownPeers/knownPeers1.txt",
+        "knownPeers/knownPeers1_docker.txt",
         "tmp/peer1",
       ]
     volumes:
       - ./tmp/peer1:/app/tmp/peer1
-      - ./knownPeers/knownPeers1.txt:/app/knownPeers/knownPeers1.txt
+      - ./knownPeers/knownPeers1_docker.txt:/app/knownPeers/knownPeers1_docker.txt
     networks:
       - p2p-network
 
@@ -34,12 +32,12 @@ services:
         "bin",
         "application.Main",
         "5001",
-        "knownPeers/knownPeers2.txt",
+        "knownPeers/knownPeers2_docker.txt",
         "tmp/peer2",
       ]
     volumes:
       - ./tmp/peer2:/app/tmp/peer2
-      - ./knownPeers/knownPeers2.txt:/app/knownPeers/knownPeers2.txt
+      - ./knownPeers/knownPeers2_docker.txt:/app/knownPeers/knownPeers2_docker.txt
     networks:
       - p2p-network
 
@@ -55,12 +53,12 @@ services:
         "bin",
         "application.Main",
         "5002",
-        "knownPeers/knownPeers3.txt",
+        "knownPeers/knownPeers3_docker.txt",
         "tmp/peer3",
       ]
     volumes:
       - ./tmp/peer3:/app/tmp/peer3
-      - ./knownPeers/knownPeers3.txt:/app/knownPeers/knownPeers3.txt
+      - ./knownPeers/knownPeers3_docker.txt:/app/knownPeers/knownPeers3_docker.txt
     networks:
       - p2p-network
 
