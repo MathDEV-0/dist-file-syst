@@ -1,0 +1,70 @@
+version: "3.8"
+
+services:
+  peer1:
+    container_name: peer1
+    build: .
+    ports:
+      - "5000:5000/udp"
+    command:
+      [
+        "java",
+        "-cp",
+        "bin",
+        "application.Main",
+        "5000",
+        "knownPeers/knownPeers1.txt",
+        "tmp/peer1",
+      ]
+    volumes:
+      - ./tmp/peer1:/app/tmp/peer1
+      - ./knownPeers/knownPeers1.txt:/app/knownPeers/knownPeers1.txt
+    networks:
+      - p2p-network
+
+  peer2:
+    container_name: peer2
+    build: .
+    ports:
+      - "5001:5001/udp"
+    command:
+      [
+        "java",
+        "-cp",
+        "bin",
+        "application.Main",
+        "5001",
+        "knownPeers/knownPeers2.txt",
+        "tmp/peer2",
+      ]
+    volumes:
+      - ./tmp/peer2:/app/tmp/peer2
+      - ./knownPeers/knownPeers2.txt:/app/knownPeers/knownPeers2.txt
+    networks:
+      - p2p-network
+
+  peer3:
+    container_name: peer3
+    build: .
+    ports:
+      - "5002:5002/udp"
+    command:
+      [
+        "java",
+        "-cp",
+        "bin",
+        "application.Main",
+        "5002",
+        "knownPeers/knownPeers3.txt",
+        "tmp/peer3",
+      ]
+    volumes:
+      - ./tmp/peer3:/app/tmp/peer3
+      - ./knownPeers/knownPeers3.txt:/app/knownPeers/knownPeers3.txt
+    networks:
+      - p2p-network
+
+networks:
+  p2p-network:
+    driver: bridge
+    name: p2p-network
