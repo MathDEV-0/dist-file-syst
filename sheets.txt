@@ -1,3 +1,4 @@
 java -cp bin application.Main 5000 knownPeers/knownPeers1_local.txt tmp/peer1
 java -cp bin application.Main 5001 knownPeers/knownPeers2_local.txt tmp/peer2  
 java -cp bin application.Main 5002 knownPeers/knownPeers3_local.txt tmp/peer3
+java -cp bin application.Main 5003 knownPeers/knownPeers4_local.txt tmp/peer4
