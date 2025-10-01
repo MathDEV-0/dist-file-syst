@@ -4,11 +4,17 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.*;
+import java.util.concurrent.locks.*;
 
 public class DirectoryWatcher implements Runnable {
     private final Path dir;
     private final FileManager fileManager;
     private final Set<String> recentlyProcessed = new HashSet<>();
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+    // Mutex
+    private final Lock lock = new ReentrantLock();
 
     public DirectoryWatcher(String dir, FileManager fileManager) {
         this.dir = Paths.get(dir);
@@ -28,32 +34,32 @@ public class DirectoryWatcher implements Runnable {
                 for (WatchEvent<?> event : key.pollEvents()) {
                     Path filePath = dir.resolve((Path) event.context());
                     String fileName = filePath.getFileName().toString();
-                    
-                    // Ignora arquivos temporários e já processados recentemente
-                    if (fileName.startsWith(".") || fileName.endsWith("~") || 
-                        recentlyProcessed.contains(fileName)) {
-                        continue;
+
+                    lock.lock(); // garante exclusão mútua
+                    try {
+                        if (fileName.startsWith(".") || fileName.endsWith("~") ||
+                            recentlyProcessed.contains(fileName)) {
+                            continue;
+                        }
+                        recentlyProcessed.add(fileName);
+                    } finally {
+                        lock.unlock(); // libera mutex
                     }
 
                     System.out.println("Alteração detectada: " + event.kind() + " -> " + filePath);
 
-                    // Adiciona à lista de processados recentemente
-                    recentlyProcessed.add(fileName);
-                    
-                    // Remove após um tempo
-                    new Thread(() -> {
+                    // agenda a remoção em 2s com mutex
+                    scheduler.schedule(() -> {
+                        lock.lock();
                         try {
-                            Thread.sleep(2000);
                             recentlyProcessed.remove(fileName);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                        } finally {
+                            lock.unlock();
                         }
-                    }).start();
+                    }, 2, TimeUnit.SECONDS);
 
-                    // Processa diferentes tipos de evento
                     if (event.kind() == StandardWatchEventKinds.ENTRY_CREATE ||
                         event.kind() == StandardWatchEventKinds.ENTRY_MODIFY) {
-                        Thread.sleep(100);
                         fileManager.sendFile(filePath.toString());
                     } else if (event.kind() == StandardWatchEventKinds.ENTRY_DELETE) {
                         fileManager.deleteFile(fileName);

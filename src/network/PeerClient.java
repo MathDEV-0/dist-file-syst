@@ -16,3 +16,7 @@ public class PeerClient {
     }
 	
 }
+
+// Não é mais requisitado, mas mostra de forma simples como enviar uma mensagem UDP
+// Pode ser usado para enviar mensagens para servidores externos
+// Apenas para abstrair o envio de mensagens UDP
