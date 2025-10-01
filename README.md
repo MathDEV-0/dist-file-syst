@@ -16,7 +16,6 @@
 - Java JDK 11 ou superior
 - Arquivos compilados na pasta `bin/`
 - mkdir -Force tmp\peer1,tmp\peer2,tmp\peer3,tmp\peer4 (para criar os diretórios síncronos)
-- 
 ### Comandos para executar os peers (em terminais separados):
 
 **Peer 1:**
