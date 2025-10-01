@@ -62,27 +62,6 @@ services:
     networks:
       - p2p-network
 
-  peer4:
-    container_name: peer4
-    build: .
-    ports:
-      - "5003:5003/udp"
-    command:
-      [
-        "java",
-        "-cp",
-        "bin",
-        "application.Main",
-        "5003",
-        "knownPeers/knownPeers4_docker.txt",
-        "tmp/peer4",
-      ]
-    volumes:
-      - ./tmp/peer4:/app/tmp/peer4
-      - ./knownPeers/knownPeers4_docker.txt:/app/knownPeers/knownPeers4_docker.txt
-    networks:
-      - p2p-network
-
 networks:
   p2p-network:
     driver: bridge
