@@ -43,6 +43,7 @@ public class Main {
         PeerServer server = new PeerServer(peer, port, fileManager);
         new Thread(server).start();
 
+        // Cria DirectoryWatcher passando o fileManager como parâmetro
         DirectoryWatcher watcher = new DirectoryWatcher(dir, fileManager);
         new Thread(watcher).start();
 
